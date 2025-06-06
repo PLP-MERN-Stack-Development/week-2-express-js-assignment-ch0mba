@@ -4,8 +4,9 @@
   "description": "[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=19722158&assignment_repo_type=AssignmentRepo)\r # Express.js RESTful API Assignment",
   "main": "server.js",
   "scripts": {
+    "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "server.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,11 @@
   "bugs": {
     "url": "https://github.com/PLP-MERN-Stack-Development/week-2-express-js-assignment-ch0mba/issues"
   },
-  "homepage": "https://github.com/PLP-MERN-Stack-Development/week-2-express-js-assignment-ch0mba#readme"
+  "homepage": "https://github.com/PLP-MERN-Stack-Development/week-2-express-js-assignment-ch0mba#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "generate-api-key": "^1.0.2",
+    "node": "^22.16.0"
+  }
 }
