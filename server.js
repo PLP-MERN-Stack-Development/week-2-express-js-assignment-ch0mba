@@ -5,12 +5,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
-const apiKey = process.env.API_KEY;
+
 
 // Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 3000;
-
+const API_KEY = process.env.API_KEY || 'my-secret-api-key-1234';
 // Middleware setup
 app.use(bodyParser.json());
 
@@ -41,13 +41,14 @@ const requestLogger = (req, res, next) => {
 
 //Authentication middleware
 //For demonstration , a simple API key cache. in a real app, this eould be mpre robust.
-const authenticateApiKey =((req, res, next) => {
-    const requestApiKey = req.headers['x-api-key'] || req.query.api_key;
-    if (requestApiKey !== apiKey) {
-        return res.status(401).json({error:'Unauthorized'});
+const authenticateApiKey = (req, res, next) => {
+    // Check for 'x-api-key' header OR 'api_key' query parameter
+    const requestApiKey = req.headers['x-api-key'] || req.query.api_key; 
+    if (!requestApiKey || requestApiKey !== API_KEY) {
+        return res.status(401).json({ message: 'Unauthorized: Invalid or missing API key' });
     }
     next();
-});
+};
  
 app.get('/protected', authenticateApiKey, (req, res) => {
   res.json({ message: 'This is a protected route!' });
