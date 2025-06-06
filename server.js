@@ -11,6 +11,7 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 const API_KEY = process.env.API_KEY || 'my-secret-api-key-1234';
+
 // Middleware setup
 app.use(bodyParser.json());
 
@@ -43,7 +44,7 @@ const requestLogger = (req, res, next) => {
 //For demonstration , a simple API key cache. in a real app, this eould be mpre robust.
 const authenticateApiKey = (req, res, next) => {
     // Check for 'x-api-key' header OR 'api_key' query parameter
-    const requestApiKey = req.headers['x-api-key'] || req.query.api_key; 
+    const requestApiKey = req.headers['x-api-key'] || req.query.API_KEY; 
     if (!requestApiKey || requestApiKey !== API_KEY) {
         return res.status(401).json({ message: 'Unauthorized: Invalid or missing API key' });
     }
@@ -51,7 +52,7 @@ const authenticateApiKey = (req, res, next) => {
 };
  
 app.get('/protected', authenticateApiKey, (req, res) => {
-  res.json({ message: 'This is a protected route!' });
+  res.json({ message: 'This is a protected route!'});
 });
 
 // Validation middleware for products creation and updates
@@ -147,6 +148,7 @@ let products = [
 // Root route
 app.get('/', (req, res) => {
   res.send('Welcome to the Product API! Go to /api/products to see all products.');
+  console.log('loaded API KEY:',API_KEY);
 });
 
 // TODO: Implement the following routes:
@@ -289,7 +291,7 @@ app.use((err, req, res, next) => {
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
-  console.log(`API Key for testing: my-secret-api-key (use in x-api-key header)`);
+  console.log(`API Key for testing: ${API_KEY} (use in x-api-key header)`);
 });
 
 // Export the app for testing purposes
